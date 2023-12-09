@@ -1,5 +1,6 @@
 import math
 import matplotlib.pyplot as plt
+import numpy
 import numpy as np
 
 #константы
@@ -113,6 +114,11 @@ def calculate_transition_probability(P1, P2):
 probability = calculate_transition_probability(Point1, Point5)
 print(probability)
 
+#Заполнеям лист вероятностей перехода в следующую точку
+init_probability_list = numpy.zeros(points_num)
+for i in range(1, points_num):
+    init_probability_list[i] = calculate_transition_probability(Point1, globals()[f"Point{i + 1}"])
+print(init_probability_list)
 
 for i in range(1, points_num + 1):
     point = globals()[f"Point{i}"]
