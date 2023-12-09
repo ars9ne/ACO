@@ -1,6 +1,5 @@
 import math
 import matplotlib.pyplot as plt
-import numpy
 import numpy as np
 
 #константы
@@ -9,10 +8,17 @@ beta = 5
 dist_const = 10
 
 class Point(object):
-    def __init__(self, number, x, y):
+    def __init__(self, number, x, y, transition_probability = None):
         self.x = x
         self.y = y
         self.number = number
+        self.transition_probability = None
+
+    def get_transition_probability(self):
+        return self.transition_probability
+
+    def set_transition_probability(self, transition_probability):
+        self.transition_probability = transition_probability
 
     def get_location(self):
         return self.x, self.y
@@ -50,7 +56,7 @@ x_coord = []
 y_coord = []
 number_coord = []
 distances_array = []
-pheromone_array = [[0.2 for _ in range(points_num)] for _ in range(points_num)]
+pheromone_array = [[0.2 if i != j else 0.0 for i in range(points_num)] for j in range(points_num)]
 
 
 def filling_coordinate_array(Point):
@@ -69,6 +75,12 @@ def filling_distances_array():
                 point2 = globals()[f"Point{j + 1}"]
                 distances_array[i][j] = point1.get_distance_to(point2)
 
+def zero_below_diagonal(matrix):
+    modified_matrix = np.array(matrix, dtype=float)  # Копируем и преобразуем в numpy массив для удобства
+    for i in range(len(modified_matrix)):
+        for j in range(i+1, len(modified_matrix)):
+            modified_matrix[j][i] = 0.0
+    return modified_matrix
 
 def print_2darray(array):
     array = np.round(array, decimals=2)
@@ -79,12 +91,27 @@ def print_2darray(array):
 
 
 filling_distances_array()
+distances_array = zero_below_diagonal(distances_array)
+pheromone_array = zero_below_diagonal(pheromone_array)
+
 print(f"Исходные данные \n"
-      f"Массив длин путей: \n {print_2darray(distances_array)} \n "
-      f"Массив феромонов на путях: \n {print_2darray(pheromone_array)}")
+      f"Массив длин путей: \n{print_2darray(distances_array)} \n "
+      f"\nМассив феромонов на путях: \n{print_2darray(pheromone_array)}")
 distances_array = np.array(distances_array)
 
+probability_array = np.zeros(points_num)
+def calculate_transition_probability(P1, P2):
+    index_P1 = P1.get_number() - 1
+    index_P2 = P2.get_number() - 1
 
+    a = pheromone_array[index_P1][index_P2] / distances_array[index_P1][index_P2] if distances_array[index_P1][index_P2] > 0 else 0
+    psum = sum(pheromone_array[index_P1][j] / distances_array[index_P1][j] for j in range(points_num) if j != index_P1 and distances_array[index_P1][j] > 0)
+
+    probability = a / psum if psum > 0 else 0
+    return probability
+
+probability = calculate_transition_probability(Point1, Point5)
+print(probability)
 
 
 for i in range(1, points_num + 1):
