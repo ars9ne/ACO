@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 import numpy
 import numpy as np
 
+#константы
+alpha = 1
+beta = 5
+dist_const = 10
 
 class Point(object):
     def __init__(self, number, x, y):
@@ -28,7 +32,7 @@ class Point(object):
         x2 = Point.get_location()[0]
         y1 = self.y
         y2 = Point.get_location()[1]
-        d = math.sqrt((x1 - y1)**2 + (x2-y2)**2)
+        d = math.sqrt((x2 - x1)**2 + (y2-y1)**2)
         return d
 
 
@@ -38,18 +42,49 @@ Point2 = Point(2, 20, 5)
 Point3 = Point(3, 18, 1)
 Point4 = Point(4, 10, 20)
 Point5 = Point(5, 7, 5)
-Point6 = Point(6, 40, 50)
-points_num = 6
+points_num = 5
+
+
 # Инициализация массива
 x_coord = []
 y_coord = []
 number_coord = []
+distances_array = []
+pheromone_array = [[0.2 for _ in range(points_num)] for _ in range(points_num)]
 
 
 def filling_coordinate_array(Point):
     x_coord.append(Point.get_location()[0])
     y_coord.append(Point.get_location()[1])
     number_coord.append(Point.get_number())
+
+def filling_distances_array():
+    global distances_array
+    distances_array = [[0 for _ in range(points_num)] for _ in range(points_num)]
+
+    for i in range(points_num):
+        for j in range(points_num):
+            if i != j:
+                point1 = globals()[f"Point{i + 1}"]
+                point2 = globals()[f"Point{j + 1}"]
+                distances_array[i][j] = point1.get_distance_to(point2)
+
+
+def print_2darray(array):
+    array = np.round(array, decimals=2)
+    formatted_rows = []
+    for i in range(len(array)):
+        formatted_rows.append(" ".join(map(str, array[i])))
+    return "\n".join(formatted_rows)
+
+
+filling_distances_array()
+print(f"Исходные данные \n"
+      f"Массив длин путей: \n {print_2darray(distances_array)} \n "
+      f"Массив феромонов на путях: \n {print_2darray(pheromone_array)}")
+distances_array = np.array(distances_array)
+
+
 
 
 for i in range(1, points_num + 1):
