@@ -9,7 +9,7 @@ beta = 5   # Важность дистанции
 num_ants = 10  # Количество муравьёв
 evaporation_rate = 0.5  # Скорость испарения феромонов
 pheromone_deposit = 1  # Количество откладываемого феромона
-iterations = 10000  # Количество итераций алгоритма
+iterations = 250  # Количество итераций алгоритма
 best_route = None
 best_route_length = float('inf')
 
@@ -74,7 +74,48 @@ points = [
     Point(22, 17, 12),
     Point(23, 44, 17),
     Point(24, 21, 34),
-    Point(25, 6, 43)
+    Point(25, 6, 43),
+    Point(26, 12, 37),
+    Point(27, 5, 21),
+    Point(28, 29, 8),
+    Point(29, 15, 33),
+    Point(30, 34, 14),
+    Point(31, 8, 10),
+    Point(32, 40, 19),
+    Point(33, 11, 17),
+    Point(34, 23, 28),
+    Point(35, 20, 4),
+    Point(36, 16, 39),
+    Point(37, 7, 25),
+    Point(38, 45, 6),
+    Point(39, 26, 20),
+    Point(40, 13, 18),
+    Point(41, 22, 11),
+    Point(42, 28, 45),
+    Point(43, 19, 36),
+    Point(44, 14, 22),
+    Point(45, 33, 13),
+    Point(46, 27, 26),
+    Point(47, 9, 31),
+    Point(48, 38, 24),
+    Point(49, 31, 5),
+    Point(50, 35, 16),
+    Point(51, 18, 40),
+    Point(52, 24, 23),
+    Point(53, 41, 12),
+    Point(54, 36, 27),
+    Point(55, 43, 3),
+    Point(56, 17, 29),
+    Point(57, 30, 7),
+    Point(58, 25, 44),
+    Point(59, 46, 1),
+    Point(60, 47, 32),
+    Point(61, 48, 38),
+    Point(62, 42, 50),
+    Point(63, 49, 48),
+    Point(64, 50, 46),
+    Point(65, 39, 42),
+    Point(66, 44, 49)
 
 ]
 
